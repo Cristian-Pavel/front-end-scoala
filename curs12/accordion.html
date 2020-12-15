@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat</title>
+	<meta charset="UTF-8">
+	<style>
+		.page{
+			display:none;
+		}
+        .buttonContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            width: 500px;
+        }
+        .page {
+            width: 500px;
+            height: fit-content;
+            background-color: aqua;
+        
+        }
+       
+		.buttonContainer > .active{
+			background-color:yellow;
+		}
+		.page.active{
+			display:block;
+		}
+
+        
+	</style>
+	<script>
+		function changeTab(button,event, idx){
+			let oldActiveButton = document.querySelector("button.active");
+			oldActiveButton.classList.remove("active");
+		
+			button.classList.add("active");
+			
+			let oldPage = document.querySelector(".page.active");
+			oldPage.classList.remove("active");
+			
+			let pages = document.querySelectorAll(".page")
+			let page = pages[idx];
+			page.classList.add("active");
+		}
+    </script>
+    
+</head>
+<body>
+	<div class="buttonContainer">
+        <button onclick="changeTab(this, event, 0);">1</button>
+        <section class="page active">Continut 1</section>
+
+        <button class="active" onclick="changeTab(this, event, 1);">2</button>
+        <section class="page">Continut 2</section>
+
+        <button onclick="changeTab(this, event, 2);">3</button>
+        <section class="page">Continut 3</section>
+
+        <button onclick="changeTab(this, event ,3);">4</button>
+        <section class="page">Continut 4</section>
+
+	</div>
+	<!-- <div class="pageContainer">
+		<section class="page">Continut 1</section>
+		<section class="page active">Continut 2</section>
+		<section class="page">Continut 3</section>
+		<section class="page">Continut 4</section>
+	</div> -->
+</body>
+</html>
