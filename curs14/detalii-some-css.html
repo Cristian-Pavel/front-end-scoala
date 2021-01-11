@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurantul meu - detalii</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Redressed&display=swap" rel="stylesheet">
+	<style>
+        * {
+			font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+		
+		}
+		html, body {
+			background-image: linear-gradient(to top left, rgb(91, 111, 202), rgb(227, 237, 243));
+            background-repeat: no-repeat;
+			margin:0;
+			padding:0;
+            height: 100vh;
+
+        }
+
+        #titluPagina {
+            font-family: 'Redressed', cursive;
+			text-align: center;
+			font-size: 3.4rem;
+			color: rgb(65, 64, 64);
+        }
+		#slideshow{
+			display:flex;
+			align-items:center;
+			justify-content:space-between;
+            /* background-color: brown; */
+		}
+		#main{
+			max-width: 625px;
+			max-height: 100%;
+			/* background-color:yellow; */
+			margin:0 auto;
+            border: 1px solid white;
+            border-radius: 10px;
+			overflow: auto;
+
+		}
+		#title{
+			margin:0;
+			text-align:center;
+		}
+
+       .slideBtn {
+            padding: 16px 5px;
+			color: #eeeeee;
+			background-color: indianred;
+			border-radius: 100%;
+			border: 1px solid #eeeeee;
+			font-size: 1.1rem;
+			margin: 0 15px;
+            padding: 10px 15px;
+			border: 0;
+        }
+
+        .slideBtn:hover {
+            transform: scale(1.1);
+        }
+
+        #nume {
+            font-size: 1.5rem;
+			font-weight: bold;	
+            text-align: center;	
+			padding: 5px;
+            color: rgb(65, 64, 64)
+
+        }
+
+        #poze {
+            max-width: 300px;
+        }
+
+        .descrierePreparat {
+            margin: 17px 22px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1px 0;
+			max-height: 100%;
+
+        }
+
+        .pasiPreparare {
+            margin-left: 22px;
+        }
+       
+	</style>
+	<script>
+		let lista = [
+			{
+				"poze":["https://www.agro.basf.ro/Pictures/migrated_pictures/imagini_articole_pictures/articol_seo_cultura_porumbului_pictures/cultura_porumb_hibrizi_750x422.jpg"],
+				"nume": "Ciolan",
+				"ingrediente": [
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 500,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": "buc"
+					}
+				],
+				"preparare":"......",
+				"timpPreparare":75,
+			},
+			{
+				"poze":["https://cich.ro/wp-content/uploads/2017/09/Grau1.jpg"],
+				"nume": "XXXX",
+				"ingrediente": [
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 200,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": ""
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": ""
+					}
+				],
+				"preparare":"......",
+				"timpPreparare":75,
+			},
+			{
+				"poze":["https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Pylon_ds.jpg/220px-Pylon_ds.jpg"],
+				"nume": "TYYYYYY",
+				"ingrediente": [
+					{
+						"numeIngredient":"<b>carne pui</b>",
+						"valoare": 100,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 100,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": ""
+					}
+				],
+				"preparare":"......",
+				"timpPreparare":75,
+			},
+			{
+				"poze":[],
+				"nume": "TYYYYYY",
+				"ingrediente": [
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 100,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 100,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": ""
+					}
+				],
+				"preparare":"......",
+				"timpPreparare":75,
+			}
+			
+		];
+        
+        var index = window.location.search.substr(4);
+        // var index = 1;
+		function draw(){
+			document.querySelector("#nume").innerText=lista[index].nume;
+			
+			let poza;
+			if (lista[index].poze.length===0) {
+				poza="https://gfsstore.com/wp-content/themes/gfsstore.com/images/no_image_available.png";
+			} else {
+				poza=lista[index].poze[0];
+			}
+			document.querySelector("#poze").src=poza;
+			
+			
+			document.querySelector("#preparare").innerText=lista[index].preparare;
+			
+			let ingrediente=lista[index].ingrediente;
+			let strIngrediente = "";
+			for(let j=0;j<ingrediente.length;j++){
+				strIngrediente += `<li>${ingrediente[j].valoare} ${ingrediente[j].um} ${ingrediente[j].numeIngredient.replace(/</g,"&lt;")}</li>`
+			}
+			document.querySelector("#ingrediente").innerHTML = strIngrediente;
+		}
+	</script>
+</head>
+<body onload="draw();">
+	<div id="main">
+        <h1 id="titluPagina">Detalii</h1>
+		<h1 id="nume"></h1>
+		<div id="slideshow">
+			<button class="slideBtn">&lt;</button>
+            <img id="poze" src=""/>
+			<button class="slideBtn">&gt;</button>
+		</div>
+		<div class="descrierePreparat">
+            
+			<ul id="ingrediente">
+				
+            </ul>
+			<p id="preparare" class="pasiPreparare">
+				
+			</p>
+		</div>
+	</div>
+</body>
+</html>

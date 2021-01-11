@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Restaurantul meu</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Redressed&display=swap" rel="stylesheet">
+	<style>
+		* {
+			font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+		}
+		body {
+			background-image: linear-gradient(to bottom right, rgb(91, 111, 202), rgb(227, 237, 243));
+		}
+
+		#titlu {
+			font-family: 'Redressed', cursive;
+			text-align: center;
+			font-size: 3.4rem;
+			color: #eeeeee;
+
+		}
+
+		#searchControl {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 18px;
+		}
+
+		[type="text"] {
+			height: 100%;
+    		font-size: 1.25rem;
+			padding: 7px;
+		}
+		#cauta1, #cauta2 {
+			padding: 7px;
+			border-radius: 10px;
+			border: 1px solid #eeeeee;
+			box-shadow: 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .4);
+			margin: 3px;
+			font-size: 1.1rem;
+			color: #eeeeee;
+		}
+
+		#cauta1:hover {
+			transform: translateY(-5px);
+		}
+		#cauta2:hover {
+			transform: translateY(-5px);
+		}
+
+		#cauta1 {
+			background-color: #3838b1;
+		}
+
+		#cauta2 {
+			background-color: cornflowerblue;
+		}
+
+		#menu-list {
+			max-width: 850px;
+			margin: 5px auto;
+		}
+		.menu-item{
+			display:flex;
+			align-items: center;
+			box-shadow: 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .4);
+			margin: 3px 3px 10px 3px;
+			border-radius: 10px;
+			background: #fff;
+			padding:10px;
+		}
+		.menu-img img{
+			max-width:100%;
+			max-height: 300px;
+		}
+		.menu-img {
+			width:300px;
+			max-height:300px;
+			text-align: center;
+		}
+		.menu-description{
+			flex:1;
+			padding:5px;
+		}
+
+		.numePreparat {
+			font-size: 1.5rem;
+			font-weight: bold;		
+			padding: 5px;
+			margin-left: 20px;
+		}
+
+		.listaIngrediente {
+			font-size: 1.1rem;
+			padding: 5px;
+			margin-left: 20px;
+		}
+
+		#btnDetalii {
+			padding: 16px 5px;
+			color: #eeeeee;
+			background-color: indianred;
+			border-radius: 100%;
+			border: 1px solid #eeeeee;
+			font-size: 1.1rem;
+			margin-right: 9px;
+			border: 0;
+		}
+
+		#btnDetalii:hover {
+			transform: scale(1.1);
+		}
+		
+		.hidden{
+			display:none !important;
+		}
+	</style>
+	<script>
+		let lista = [
+			{
+				"poze":["https://www.agro.basf.ro/Pictures/migrated_pictures/imagini_articole_pictures/articol_seo_cultura_porumbului_pictures/cultura_porumb_hibrizi_750x422.jpg"],
+				"nume": "Ciolan",
+				"ingrediente": [
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 500,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": "buc"
+					}
+				],
+				"preparare":"......",
+				"timpPreparare":75,
+			},
+			{
+				"poze":["https://cich.ro/wp-content/uploads/2017/09/Grau1.jpg"],
+				"nume": "XXXX",
+				"ingrediente": [
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 200,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": ""
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": ""
+					}
+				],
+				"preparare":"......",
+				"timpPreparare":75,
+			},
+			{
+				"poze":["https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Pylon_ds.jpg/220px-Pylon_ds.jpg"],
+				"nume": "TYYYYYY",
+				"ingrediente": [
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 100,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 100,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": ""
+					}
+				],
+				"preparare":"......",
+				"timpPreparare":75,
+			},
+			{
+				"poze":[],
+				"nume": "TYYYYYY",
+				"ingrediente": [
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 100,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"carne pui",
+						"valoare": 100,
+						"um": "g"
+					},
+					{
+						"numeIngredient":"oua",
+						"valoare": 5,
+						"um": ""
+					}
+				],
+				"preparare":"......",
+				"timpPreparare":75,
+			}
+			
+		];
+		function draw(){
+			let cuvantCautat = document.querySelector('[name="search"]').value;
+		
+			var str = "";
+			for(let i=0;i<lista.length;i++){
+				let ingrediente = lista[i].ingrediente;
+				let strIngrediente = "";
+				
+				for(let j=0;j<ingrediente.length;j++){
+					strIngrediente += `${ingrediente[j].valoare} ${ingrediente[j].um} ${ingrediente[j].numeIngredient}, `
+				}
+				let poza;
+				if (lista[i].poze.length===0) {
+					poza="https://gfsstore.com/wp-content/themes/gfsstore.com/images/no_image_available.png";
+				} else {
+					poza=lista[i].poze[0];
+				}
+				if(strIngrediente.includes(cuvantCautat)){
+					str+=`
+						<div class="menu-item">
+							<div class="menu-img">
+								<img src="${poza}" />
+							</div>
+							<div class="menu-description">
+								<div class="numePreparat">${lista[i].nume}</div>
+								<div class="listaIngrediente">${strIngrediente}</div>
+							</div>
+							<button id="btnDetalii">Detalii</button>
+						</div>
+					`
+				}
+			}
+			document.querySelector("#menu-list").innerHTML= str;
+		}
+		function cauta(){
+			let cuvantCautat = document.querySelector('[name="search"]').value;
+			let menuItems = document.querySelectorAll(".menu-item");
+			
+			for(let i=0;i<menuItems.length;i++){
+				let menuItem = menuItems[i];
+				let text = menuItem.querySelector(".menu-description div:nth-child(2)").innerText;
+				if(!text.includes(cuvantCautat)){
+					menuItem.classList.add("hidden");
+				}else{
+					menuItem.classList.remove("hidden");
+				}
+			}
+		}
+	</script>
+</head>
+<body onload="draw()">
+	<header><h1 id="titlu">Cald si Bun</h1></header>
+	<section id="searchControl">
+		<input type="text" name="search" />
+		<button onclick="cauta();" id="cauta1">Cauta in ingrediente</button>
+		<button onclick="draw();" id="cauta2">Cauta in ingrediente 2</button>
+	</section>
+	<section id="menu-list">
+	</section>
+</body>
+</html>
