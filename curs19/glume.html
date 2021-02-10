@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    let url = "https://official-joke-api.appspot.com/";
+   
+    let optiuniGlume = {
+        "randomTen" : "random_ten",
+        "programming": "jokes/programming/random"
+    }
+
+    async function getJoke10() {
+        let responseZece = await fetch(url + optiuniGlume.randomTen);
+        let sirGlume = await responseZece.json();
+        // for(let i=1; i<=10; i++) {
+
+        // }
+    }
+
+</script>
+<body>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>    
+    <button onclick="getJoke10();">Get 10 jokes</button>
+    <p> </p>
+    <button>Get 1 programming joke</button>
+</body>
+</html>

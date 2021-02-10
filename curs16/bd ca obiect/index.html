@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Restaurantul meu</title>
+	
+	<link rel="stylesheet" href="loading.css">
+	<style>
+		.menu-item{
+			display:flex;
+			align-items: center;
+			box-shadow: 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .4);
+			margin: 3px 3px 10px 3px;
+			border-radius: 10px;
+			background: #fff;
+			padding:10px;
+		}
+		.menu-img img{
+			max-width:100%;
+			max-height: 300px;
+		}
+		.menu-img {
+			width:300px;
+			max-height:300px;
+			text-align: center;
+		}
+		.menu-description{
+			flex:1;
+			padding:5px;
+		}
+		.hidden{
+			display:none !important;
+		}
+		
+		.lds-ripple div{
+			border-color:red;
+		}
+		#loading{
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			margin: auto;
+			width:200px;
+			height:200px;
+		}
+	</style>
+	<script>
+        let lista = [];
+        let url = 'https://restaurant-invatcristi-default-rtdb.europe-west1.firebasedatabase.app/';
+        async function getLista(){
+            document.querySelector('#loading').classList.remove('hidden');
+            const response = await fetch(url + '.json');
+            lista = await response.json();
+            document.querySelector('#loading').classList.add('hidden');
+            draw();
+        }
+
+        function draw() { // afisez doar preparatele care contin cuvantul cautat
+            let cuvantCautat = document.querySelector('[name="search"]').value;
+            var str = ''; // string in care voi construi doar HTML-ul ce contine printre ingrediente cuvantul cautat
+            for(let [i, preparat] of Object.entries(lista)) { // parcurg baza de date sub forma de obiect
+                let ingrediente = preparat.ingrediente; // fiecare preparat este un alt obiect si preparat.ingrediente este un array de obiecte
+                let strIngrediente = '';
+                for(let j=0; j<ingrediente.length; j++) { // construiesc un sir cu toate ingredientele de la fiecare preparat din tot obiectul ca sa le pot compara cu cuvantul cautat
+                    strIngrediente += `${ingrediente[j].valoare} ${ingrediente[j].um} de ${ingrediente[j].numeIngredient}, `
+                }
+
+                let poza;
+                if (preparat.poze === undefined || preparat.poze.length === 0) { // prima conditie este daca avem baza de date ca obiect si a doua daca avem baza de date ca array
+                    poza = "https://gfsstore.com/wp-content/themes/gfsstore.com/images/no_image_available.png";
+                } else {
+                    poza = preparat.poze[0];
+                }
+                // verific daca cuvantul cautat se regaseste in sirul de toate ingredientele format mai sus si le transform in elemente html doar daca acest lucru este adevarat (ca sa nu afisez decat ceea ce am cautat)
+                if (strIngrediente.includes(cuvantCautat)) {
+                    str += `
+                        <div class="menu-item">
+							<div class="menu-img">
+								<img src="${poza}" />
+							</div>
+							<div class="menu-description">
+								<div>${preparat.nume}</div>
+								<div>${strIngrediente}</div>
+							</div>
+							<a href="detalii.html?id=${i}" ><button>Detalii</button></a>
+                        </div>
+                        `
+                }
+
+            }
+            document.querySelector('#menu-list').innerHTML = str;
+        }
+
+        function cauta() {
+            let cuvantCautat = document.querySelector('[name="search"]').value; //luat valoarea din casuta pentru a putea sa o comparam
+            let menuItems = document.querySelectorAll('#menu-item'); // formam un array de preparate, care e de fapt un array de elemente
+            for(let i=0; i<menuItems.length; i++) { // parcurgem fiecare preparat sa vedem daca contine cuvantul cautat
+                let menuItem = menuItems[i];
+                let text = menuItem.querySelector('.menu-descrption div:nth-child(2)').innerText;
+                if (!text.includes(cuvantCautat)) { // ascunde daca nu contine cuvantul sau afiseaza daca-l contine
+                    menuItems.classList.add('hidden');
+                } else {
+                    menuItems.classList.remove('hidden');
+                }
+            }
+        }
+
+	</script>
+</head>
+<body onkeyup="getLista();">
+	<div id="loading" class="lds-ripple"><div></div><div></div></div>
+
+
+	<header><h1>Cald si Bun</h1></header>
+	<section>
+		<input type="text" name="search" />
+		<button onclick="cauta();">Cauta in ingrediente</button>
+		<button onclick="draw();">Cauta in ingrediente 2</button>
+	</section>
+	<section id="menu-list">
+	</section>
+</body>
+</html>

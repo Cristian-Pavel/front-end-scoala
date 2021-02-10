@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Restaurantul meu</title>
+	<style>
+		body,html{
+			margin:0;
+			padding:0;
+		}
+		#slideshow{
+			display:flex;
+			align-items:center;
+			justify-content:space-between;
+		}
+		#main{
+			max-width:1200px;
+			background-color:yellow;
+			margin:0 auto;
+		}
+		#title{
+			margin:0;
+			text-align:center;
+		}
+	</style>
+	<script>
+		let preparat = {};
+		let url = 'https://restaurant-invatcristi-default-rtdb.europe-west1.firebasedatabase.app/';
+        let index = window.location.search.substr(4);
+        // daca nu are index, atunci redirectionam catre homepage ca sa nu stergem baza de date din greseala
+		if (index.length<1) {
+			window.location = 'index.html';
+        }
+        // luam din baza de date elementul cu acel index care ne intereseaza
+		async function getLista() {
+			const response = await fetch (url+index+'.json');
+			preparat = await response.json();
+			draw();
+        }
+        
+        // Afisam in intrebare in zona de span id="nume", numele preparatul pentru care intrebam daca-l stergem sau nu
+		function draw() {
+            document.querySelector('#nume').innerText = preparat.nume;
+        }
+        // 
+        async function sterge() {
+            const response = await fetch (url + index + ".json", {
+                method: "delete"
+            })
+            preparat = await response.json();
+            window.location = "index.html";
+        }
+		
+
+	</script>
+</head>
+<body onload="getLista()">
+    <p>
+        Esti sigur ca vrei sa stergi preparatul <span id="nume"></span>?
+        <a href="index.html"><button>Nu</button></a>
+        <button onclick="sterge()">Sterge</button>
+    </p>
+</body>
+</html>

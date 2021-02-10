@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaugare</title>
+    <style>
+        .container {
+            max-width: 800px;
+            height: 400px;
+            background-color: aquamarine;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+        }
+    </style>
+    <script>
+        let url = 'https://restaurant-invatcristi-default-rtdb.europe-west1.firebasedatabase.app/';
+        async function salveaza(event) {
+            event.preventDefault(); // sa nu iasa de pe pagina automat cand dau submit ci sa intre aici sa execute codul
+            // citim preparatul din campuri
+            let nume = document.querySelector('[name="nume"]').value;
+            let poze = document.querySelector('[name="poze"]').value;
+            let timpPreparare = document.querySelector('[name="timpPreparare"]').value;
+            let ingrediente = document.querySelector('[name="ingrediente"]').value;
+            let preparare = document.querySelector('[name=preparare]').value;
+            // pun informatia din campuri intr-un obiect
+            let preparatNou = {
+                "nume": nume,
+                "poze": [poze],
+                "timpPreparare": Number(timpPreparare),
+                "ingrediente": [
+                    {
+                        "numeIngredient": ingrediente,
+                        "valoare": 0,
+                        "um": ""
+                    },
+                ],
+                "preparare": preparare,
+            }
+
+            // trimitem obiectul catre baza de date
+            const response = await fetch(url + ".json", {
+                method: "post", // ce sa faca serverul, adica sa posteze un nou camp
+                body: JSON.stringify(preparatNou), // a transformat obiectul intr-un string
+                headers: {
+                    'Content-Type': 'application/json' // arata ce tip de info trimitem, o aplicatie in cazul nostru
+                }
+            })
+            preparat = await response.json();
+        }
+    </script>
+</head>
+<body>
+    <div id="loading" class="lds-ripple"><div></div><div></div></div>
+	<header><h1>Cald si Bun</h1></header>
+	<form onsubmit="salveaza(event);">
+		<table>
+			<tr>
+				<td>Nume</td>
+				<td><input type="text" name="nume"/></td>
+			</tr>
+			<tr>
+				<td>Poze</td>
+				<td><input type="text" name="poze"/></td>
+			</tr>
+			<tr>
+				<td>Timp Preparare</td>
+				<td><input type="number" name="timpPreparare"/></td>
+			</tr>
+			<tr>
+				<td>Ingrediente</td>
+				<td><textarea  name="ingrediente"></textarea></td>
+			</tr>
+			<tr>
+				<td>Preparare</td>
+				<td><textarea  name="preparare"></textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" /></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
